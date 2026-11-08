@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Безопасная сделка: концепции</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Spectral:wght@500;700&family=Golos+Text:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+body{font:16px/1.5 "Golos Text",Arial,sans-serif;background:#10131a;color:#eef0f5;min-height:100vh}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 16px;background:#000;position:sticky;top:0;z-index:9}
+.bar b{margin-right:auto;font-size:14px;font-weight:500}
+.bar button{font:500 14px "Golos Text",Arial;padding:10px 14px;border-radius:8px;border:1px solid #ffffff44;background:none;color:#fff;cursor:pointer}
+.bar button[aria-pressed=true]{background:#fff;color:#000}
+.stage{min-height:calc(100vh - 62px);padding:clamp(18px,4vw,48px)}
+.act{font:700 16px "Golos Text",Arial;padding:15px 24px;border:0;border-radius:10px;cursor:pointer;transition:transform .15s}
+.act:active{transform:scale(.97)}
+.mono{font-family:"JetBrains Mono",monospace}
+/* A seal */
+.a{background:#ece6da;color:#1f1b16;font-family:Spectral,Georgia,serif}
+.a .doc{max-width:860px;margin:0 auto;background:#fffdf7;padding:clamp(24px,5vw,60px);box-shadow:0 30px 70px #2a200f33;position:relative}
+.a h1{font-size:clamp(30px,5vw,50px);line-height:1.1}
+.a .row{display:grid;grid-template-columns:1fr 1fr;gap:24px;border-top:1px solid #1f1b16;border-bottom:1px solid #1f1b16;padding:18px 0;margin:24px 0}
+.a ol{list-style:none;padding:0}
+.a li{padding:9px 0;border-bottom:1px dotted #a89b84;color:#9a8e79;display:flex;justify-content:space-between;gap:12px}
+.a li.done{color:#1f1b16}
+.a li.cur{color:#a3201d;font-weight:700}
+.seal{position:absolute;right:clamp(14px,5vw,52px);top:clamp(14px,4vw,44px);width:clamp(84px,14vw,126px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d4423a,#8c1613);display:flex;align-items:center;justify-content:center;color:#ffe6d8;font-weight:700;text-align:center;font-size:13px;transform:rotate(-10deg) scale(.2);opacity:0;transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .2s}
+.seal.on{transform:rotate(-10deg) scale(1);opacity:1}
+.a .act{background:#1f1b16;color:#fffdf7;font-family:Spectral,serif;margin-top:22px}
+/* B vault */
+.b{background:radial-gradient(circle at 50% 30%,#1b2a55,#060914 70%);font-family:Unbounded,Arial,sans-serif}
+.b .vt{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.dial{position:relative;max-width:440px;width:100%;margin:0 auto}
+.dial svg{display:block}
+.needle{transform-origin:200px 200px;transition:transform .8s cubic-bezier(.34,1.3,.64,1)}
+.dcen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:30px;font-weight:800}
+.dcen small{font:400 14px "Golos Text",Arial;color:#9db3e6;margin-top:4px}
+.b h1{font-size:clamp(26px,3.6vw,42px);line-height:1.15;margin-bottom:12px}
+.b p{font-family:"Golos Text",Arial;color:#b9c6e6}
+.b .act{background:#59f0ff;color:#04121e;margin-top:22px;font-family:"Golos Text",Arial}
+.b .kv{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #ffffff22;font:400 15px "Golos Text",Arial;gap:12px}
+/* C two sides */
+.c{background:#ff5a36;color:#16120f;padding:0!important;display:grid;grid-template-columns:1fr 150px 1fr;font-family:Unbounded,Arial,sans-serif}
+.c .side{padding:clamp(22px,4vw,52px);display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 62px)}
+.c .side.r{background:#16120f;color:#fff3e8}
+.c h2{font-size:clamp(26px,3.6vw,44px);line-height:1.1;margin-bottom:12px}
+.c p{font-family:"Golos Text",Arial}
+.c .mid{background:linear-gradient(90deg,#ff5a36 50%,#16120f 50%);position:relative}
+.token{position:absolute;left:50%;width:110px;height:110px;margin-left:-55px;top:50%;margin-top:-55px;background:#ffe45c;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font:800 14px Unbounded,Arial;color:#16120f;transition:transform .8s cubic-bezier(.34,1.3,.64,1);border:3px solid #16120f}
+.c .act{background:#16120f;color:#fff;margin-top:20px;font-family:"Golos Text",Arial;align-self:flex-start}
+.c .state{font:500 15px "Golos Text",Arial;margin-top:8px}
+@media(max-width:760px){.a .row,.b .vt{grid-template-columns:1fr}.c{grid-template-columns:1fr}.c .side{min-height:0}.c .mid{height:130px;background:linear-gradient(#ff5a36 50%,#16120f 50%)}.dial{max-width:320px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+:focus-visible{outline:3px solid #59f0ff;outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="bar"><b>Экран сделки: 3 разных характера · демо, данные условные</b><span id="tabs"></span></div>
+<div class="stage" id="s"></div>
+<script>
+var ST=['Создана','Депозит получен','Работа выполнена','Подтверждено','Выплачено'],HINT=['Покупатель вносит 1 250 USDT','Средства заблокированы до исполнения','Продавец сдал результат','Покупатель принял работу','Сделка закрыта'],BTN=['Внести депозит','Сдать работу','Подтвердить','Выплатить','Новая сделка'];
+var i=0,cn='a',s=document.getElementById('s'),tabs=document.getElementById('tabs');
+[['a','1. Договор с пломбой'],['b','2. Сейф'],['c','3. Две стороны']].forEach(function(t){var b=document.createElement('button');b.type='button';b.textContent=t[1];b.style.marginLeft='6px';b.dataset.k=t[0];b.onclick=function(){cn=t[0];draw()};tabs.appendChild(b)});
+function next(){i=i>=4?0:i+1;upd()}
+var V={
+a:function(){s.innerHTML='<div class="doc"><div class="seal" id="se">СРЕДСТВА<br>ПОД<br>ПЛОМБОЙ</div><div style="font-size:15px">Договор № 4471</div><h1>Логотип и фирменный стиль</h1><div class="row"><div>Покупатель<br><b class="mono">0x7a…41f</b></div><div>Продавец<br><b class="mono">0x2c…9be</b></div><div>Сумма<br><b>1 250 USDT</b></div><div>Срок<br><b>14 дней</b></div></div><ol id="ol"></ol><button class="act" id="go" type="button"></button></div>'},
+b:function(){var t='';for(var n=0;n<60;n++){var r=n*6*Math.PI/180,o=n%12==0?176:184;t+='<line x1="'+(200+o*Math.sin(r))+'" y1="'+(200-o*Math.cos(r))+'" x2="'+(200+192*Math.sin(r))+'" y2="'+(200-192*Math.cos(r))+'" stroke="#59f0ff" stroke-opacity=".6" stroke-width="2"/>'}s.innerHTML='<div class="vt"><div class="dial"><svg viewBox="0 0 400 400">'+t+'<circle cx="200" cy="200" r="160" fill="#0b1430" stroke="#2c4080" stroke-width="3"/><g class="needle" id="nd"><polygon points="200,46 188,82 212,82" fill="#59f0ff"/></g></svg><div class="dcen"><span>1 250</span><small>USDT в сейфе</small></div></div><div><h1 id="bh"></h1><p id="bp"></p><div style="margin-top:18px"><div class="kv"><span>Сделка</span><span class="mono">№ 4471</span></div><div class="kv"><span>Покупатель</span><span class="mono">0x7a…41f</span></div><div class="kv"><span>Продавец</span><span class="mono">0x2c…9be</span></div></div><button class="act" id="go" type="button"></button></div></div>'},
+c:function(){s.innerHTML='<div class="side"><h2>Покупатель</h2><p>Вносит оплату и принимает работу.</p><div class="state" id="cs"></div><button class="act" id="go" type="button"></button></div><div class="mid"><div class="token" id="tk">1 250<br>USDT</div></div><div class="side r"><h2>Продавец</h2><p>Видит, что деньги уже заморожены, и спокойно работает.</p><div class="state" id="cr"></div></div>'}};
+function upd(){var go=document.getElementById('go');go.textContent=BTN[i];go.onclick=next;
+if(cn=='a'){ol.innerHTML=ST.map(function(t,n){return '<li class="'+(n<i?'done':n==i?'cur':'')+'"><span>'+t+'</span><span>'+(n<=i?'✓':'')+'</span></li>'}).join('');se.classList.toggle('on',i>=1&&i<4)}
+if(cn=='b'){nd.style.transform='rotate('+(i*72)+'deg)';bh.textContent=ST[i];bp.textContent=HINT[i]}
+if(cn=='c'){var y=matchMedia('(max-width:760px)').matches;var v=[-1,0,0,0,1][i]*(y?45:Math.min(75,70));tk.style.transform=(y?'rotate(0) translateY(':'translateX(')+v+'px)';tk.innerHTML=i==0?'1 250<br>USDT':i==4?'Выплачено':'Заморо-<br>жено';cs.textContent=ST[i]+'. '+HINT[i];cr.textContent=ST[i]}}
+function draw(){s.className='stage '+cn;V[cn]();[].forEach.call(tabs.children,function(b){b.setAttribute('aria-pressed',b.dataset.k===cn)});upd()}draw();
+</script>
+</body>
+</html>
